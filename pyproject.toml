@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "checklog-odoo"
 dynamic = ["version"]
-description = ''
+description = 'Check if an odoo log file contains error, with the possibility to ignore some errors based on regular expressions'
 readme = "README.md"
 requires-python = ">=3.7"
 license = "MIT"
@@ -41,10 +41,15 @@ checklog-odoo = "checklog_odoo.cli.checklog:checklog_odoo"
 path = "src/checklog_odoo/__about__.py"
 
 [tool.hatch.envs.default]
-dependencies = [
-  "coverage[toml]>=6.5",
-  "pytest",
+dependencies = []
+
+[project.optional-dependencies]
+metadata = []
+test = [
+    "pytest",
+    "coverage[toml]",
 ]
+
 [tool.hatch.envs.default.scripts]
 test = "pytest {args:tests}"
 test-cov = "coverage run -m pytest {args:tests}"
@@ -144,20 +149,14 @@ ban-relative-imports = "all"
 "tests/**/*" = ["PLR2004", "S101", "TID252"]
 
 [tool.coverage.run]
-source_pkgs = ["checklog_odoo", "tests"]
 branch = true
-parallel = true
-omit = [
-  "src/checklog_odoo/__about__.py",
-]
+source_pkgs = ["checklog-odoo"]
 
 [tool.coverage.paths]
-checklog_odoo = ["checklog_odoo", "*/checklog-odoo/checklog_odoo"]
-tests = ["tests", "*/checklog-odoo/tests"]
+source = ["src", ".tox/*/site-packages"]
 
 [tool.coverage.report]
+show_missing = true
 exclude_lines = [
-  "no cov",
-  "if __name__ == .__main__.:",
-  "if TYPE_CHECKING:",
+    "pragma: no cover",
 ]
