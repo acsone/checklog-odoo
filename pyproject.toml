@@ -38,7 +38,7 @@ Source = "https://github.com/unknown/checklog-odoo"
 checklog-odoo = "checklog_odoo.cli.checklog:checklog_odoo"
 
 [tool.hatch.version]
-path = "checklog_odoo/__about__.py"
+path = "src/checklog_odoo/__about__.py"
 
 [tool.hatch.envs.default]
 dependencies = [
@@ -148,7 +148,7 @@ source_pkgs = ["checklog_odoo", "tests"]
 branch = true
 parallel = true
 omit = [
-  "checklog_odoo/__about__.py",
+  "src/checklog_odoo/__about__.py",
 ]
 
 [tool.coverage.paths]
