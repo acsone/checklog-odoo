@@ -38,7 +38,7 @@ Source = "https://github.com/unknown/checklog-odoo"
 checklog-odoo = "checklog_odoo.cli.checklog:checklog_odoo"
 
 [tool.hatch.version]
-path = "src/checklog_odoo/__about__.py"
+path = "checklog_odoo/__about__.py"
 
 [tool.hatch.envs.default]
 dependencies = [
@@ -68,7 +68,7 @@ dependencies = [
   "ruff>=0.0.243",
 ]
 [tool.hatch.envs.lint.scripts]
-typing = "mypy --install-types --non-interactive {args:src/checklog_odoo tests}"
+typing = "mypy --install-types --non-interactive {args:checklog_odoo tests}"
 style = [
   "ruff {args:.}",
   "black --check --diff {args:.}",
@@ -148,11 +148,11 @@ source_pkgs = ["checklog_odoo", "tests"]
 branch = true
 parallel = true
 omit = [
-  "src/checklog_odoo/__about__.py",
+  "checklog_odoo/__about__.py",
 ]
 
 [tool.coverage.paths]
-checklog_odoo = ["src/checklog_odoo", "*/checklog-odoo/src/checklog_odoo"]
+checklog_odoo = ["checklog_odoo", "*/checklog-odoo/checklog_odoo"]
 tests = ["tests", "*/checklog-odoo/tests"]
 
 [tool.coverage.report]
