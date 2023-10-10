@@ -1,5 +1,5 @@
 [build-system]
-requires = ["hatchling"]
+requires = ["hatchling", "hatch-vcs"]
 build-backend = "hatchling.build"
 
 [project]
@@ -38,7 +38,7 @@ Source = "https://github.com/unknown/checklog-odoo"
 checklog-odoo = "checklog_odoo.cli.checklog:checklog_odoo"
 
 [tool.hatch.version]
-path = "src/checklog_odoo/__about__.py"
+source = "vcs"
 
 [tool.hatch.envs.default]
 dependencies = []

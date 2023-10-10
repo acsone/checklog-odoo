@@ -2,8 +2,6 @@
 #
 # SPDX-License-Identifier: MIT
 
-from checklog_odoo.__about__ import __version__
-
 import logging
 import re
 import sys
@@ -118,7 +116,6 @@ class ColoredFormatter(logging.Formatter):
     help="Check an odoo log file for errors. When no filename "
     "or - is provided, read from stdin."
 )
-@click.version_option(version=__version__, prog_name="checklog-odoo")
 @click.option(
     "--ignore",
     "-i",
