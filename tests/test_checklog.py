@@ -1,4 +1,3 @@
-# SPDX-FileCopyrightText: 2023-present Benoit Aimont <benoit.aimont@acsone.eu>
 # SPDX-FileCopyrightText: 2023-present ACSONE <https://acsone.eu>
 #
 # SPDX-License-Identifier: MIT
