@@ -35,7 +35,7 @@ Issues = "https://github.com/unknown/checklog-odoo/issues"
 Source = "https://github.com/unknown/checklog-odoo"
 
 [project.scripts]
-checklog-odoo = "checklog_odoo.cli.checklog:checklog_odoo"
+checklog-odoo = "checklog_odoo.checklog:checklog_odoo"
 
 [tool.hatch.version]
 source = "vcs"

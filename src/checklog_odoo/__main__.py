@@ -4,6 +4,6 @@
 import sys
 
 if __name__ == "__main__":
-    from checklog_odoo.cli.checklog import checklog_odoo
+    from checklog_odoo.checklog import checklog_odoo
 
     sys.exit(checklog_odoo())

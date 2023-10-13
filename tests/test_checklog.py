@@ -6,7 +6,7 @@ import os
 
 from click.testing import CliRunner
 
-from checklog_odoo.cli.checklog import checklog_odoo
+from checklog_odoo.checklog import checklog_odoo
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
 
