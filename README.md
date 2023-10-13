@@ -8,18 +8,28 @@
 <!--- shortdesc-begin -->
 
 Check if an odoo log file contains error, with the possibility to ignore some errors based on regular expressions.
+Replaces acsoo checklog (https://github.com/acsone/acsoo#id5).
 
 <!--- shortdesc-end -->
 
 **Table of Contents**
 
 - [Installation](#installation)
+- [Features](#features)
 - [License](#license)
 
 ## Installation
 
 ```console
 pip install checklog-odoo
+```
+
+## Features
+
+```console
+checklog-odoo odoo.log
+unbuffer odoo -d mydb -i base --stop-after-init | checklog-odoo
+checklog-odoo --ignore "WARNING.*blah" odoo.log
 ```
 
 ## License
