@@ -7,7 +7,8 @@ from configparser import NoOptionError, NoSectionError, RawConfigParser
 from pathlib import Path
 
 import click
-import tomli
+
+from .compat import tomllib
 
 DEFAULT_CONFIG_FILE = "checklog.cfg"
 SECTION = "checklog"
@@ -36,7 +37,7 @@ class ChecklogConfig(object):
         pyproject_path = Path("pyproject.toml")
         self.__pyproject = {}
         if pyproject_path.is_file():
-            self.__pyproject = tomli.loads(pyproject_path.read_text())
+            self.__pyproject = tomllib.loads(pyproject_path.read_text())
 
     @staticmethod
     def add_default_map_reader(reader):
