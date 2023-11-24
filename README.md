@@ -21,16 +21,38 @@ Replaces acsoo checklog (https://github.com/acsone/acsoo#id5).
 ## Installation
 
 ```console
-pip install checklog-odoo
+pipx install checklog-odoo
 ```
 
-## Features
+## Use examples
 
 ```console
 checklog-odoo odoo.log
 unbuffer odoo -d mydb -i base --stop-after-init | checklog-odoo
 checklog-odoo --ignore "WARNING.*blah" odoo.log
 ```
+
+## Options
+
+* -i, --ignore REGEX:              Regular expression of log records to ignore.
+* --echo / --no-echo:              Echo the input file (default when reading
+                                  from stdin).
+* --err-if-empty / --no-err-if-empty:
+                                  Exit with an error code if no log record is
+                                  found (default).
+*  -c, --config FILE:               Configuration file (default:
+                                  ./checklog.cfg).
+   * Example of config file:
+        ```console
+        [checklog]
+        ignore=
+           WARNING
+           ERROR:.*registry
+        ```
+
+
+*  --help:                          Show the help message and exit.
+
 
 ## License
 
