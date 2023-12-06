@@ -1,11 +1,11 @@
 [build-system]
-requires = ["hatchling"]
+requires = ["hatchling", "hatch-vcs"]
 build-backend = "hatchling.build"
 
 [project]
 name = "checklog-odoo"
 dynamic = ["version"]
-description = ''
+description = 'Check if an odoo log file contains error, with the possibility to ignore some errors based on regular expressions'
 readme = "README.md"
 requires-python = ">=3.7"
 license = "MIT"
@@ -26,7 +26,7 @@ classifiers = [
 ]
 dependencies = [
   "click",
-  "tomli",
+  "tomli ; python_version < '3.11'",
 ]
 
 [project.urls]
@@ -35,16 +35,21 @@ Issues = "https://github.com/unknown/checklog-odoo/issues"
 Source = "https://github.com/unknown/checklog-odoo"
 
 [project.scripts]
-checklog-odoo = "checklog_odoo.cli.checklog:checklog_odoo"
+checklog-odoo = "checklog_odoo.checklog:checklog_odoo"
 
 [tool.hatch.version]
-path = "src/checklog_odoo/__about__.py"
+source = "vcs"
 
 [tool.hatch.envs.default]
-dependencies = [
-  "coverage[toml]>=6.5",
-  "pytest",
+dependencies = []
+
+[project.optional-dependencies]
+metadata = []
+test = [
+    "pytest",
+    "coverage[toml]",
 ]
+
 [tool.hatch.envs.default.scripts]
 test = "pytest {args:tests}"
 test-cov = "coverage run -m pytest {args:tests}"
@@ -68,7 +73,7 @@ dependencies = [
   "ruff>=0.0.243",
 ]
 [tool.hatch.envs.lint.scripts]
-typing = "mypy --install-types --non-interactive {args:src/checklog_odoo tests}"
+typing = "mypy --install-types --non-interactive {args:checklog_odoo tests}"
 style = [
   "ruff {args:.}",
   "black --check --diff {args:.}",
@@ -144,20 +149,14 @@ ban-relative-imports = "all"
 "tests/**/*" = ["PLR2004", "S101", "TID252"]
 
 [tool.coverage.run]
-source_pkgs = ["checklog_odoo", "tests"]
 branch = true
-parallel = true
-omit = [
-  "src/checklog_odoo/__about__.py",
-]
+source_pkgs = ["checklog-odoo"]
 
 [tool.coverage.paths]
-checklog_odoo = ["src/checklog_odoo", "*/checklog-odoo/src/checklog_odoo"]
-tests = ["tests", "*/checklog-odoo/tests"]
+source = ["src", ".tox/*/site-packages"]
 
 [tool.coverage.report]
+show_missing = true
 exclude_lines = [
-  "no cov",
-  "if __name__ == .__main__.:",
-  "if TYPE_CHECKING:",
+    "pragma: no cover",
 ]
