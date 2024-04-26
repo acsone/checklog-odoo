@@ -21,6 +21,7 @@ classifiers = [
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: Implementation :: CPython",
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
@@ -30,68 +31,25 @@ dependencies = [
 ]
 
 [project.urls]
-Documentation = "https://github.com/unknown/checklog-odoo#readme"
-Issues = "https://github.com/unknown/checklog-odoo/issues"
-Source = "https://github.com/unknown/checklog-odoo"
+Documentation = "https://github.com/acsone/checklog-odoo#readme"
+Issues = "https://github.com/acsone/checklog-odoo/issues"
+Source = "https://github.com/acsone/checklog-odoo"
 
 [project.scripts]
 checklog-odoo = "checklog_odoo.checklog:checklog_odoo"
 
-[tool.hatch.version]
-source = "vcs"
-
-[tool.hatch.envs.default]
-dependencies = []
-
 [project.optional-dependencies]
-metadata = []
 test = [
     "pytest",
     "coverage[toml]",
 ]
 
-[tool.hatch.envs.default.scripts]
-test = "pytest {args:tests}"
-test-cov = "coverage run -m pytest {args:tests}"
-cov-report = [
-  "- coverage combine",
-  "coverage report",
-]
-cov = [
-  "test-cov",
-  "cov-report",
-]
+[tool.hatch.version]
+source = "vcs"
 
-[[tool.hatch.envs.all.matrix]]
-python = ["3.7", "3.8", "3.9", "3.10", "3.11"]
-
-[tool.hatch.envs.lint]
-detached = true
-dependencies = [
-  "black>=23.1.0",
-  "mypy>=1.0.0",
-  "ruff>=0.0.243",
-]
-[tool.hatch.envs.lint.scripts]
-typing = "mypy --install-types --non-interactive {args:checklog_odoo tests}"
-style = [
-  "ruff {args:.}",
-  "black --check --diff {args:.}",
-]
-fmt = [
-  "black {args:.}",
-  "ruff --fix {args:.}",
-  "style",
-]
-all = [
-  "style",
-  "typing",
-]
-
-[tool.black]
-target-version = ["py37"]
-line-length = 120
-skip-string-normalization = true
+###################################################################################
+# ruff
+#
 
 [tool.ruff]
 target-version = "py37"
@@ -147,6 +105,10 @@ known-first-party = ["checklog_odoo"]
 [tool.ruff.per-file-ignores]
 # Tests can use magic values, assertions, and relative imports
 "tests/**/*" = ["PLR2004", "S101"]
+
+###################################################################################
+# coverage
+#
 
 [tool.coverage.run]
 branch = true
