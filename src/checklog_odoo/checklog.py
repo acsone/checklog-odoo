@@ -8,7 +8,7 @@ import sys
 
 import click
 
-from checklog_odoo.config import ChecklogConfig
+from checklog_odoo.config import DEFAULT_CONFIG_FILE, ChecklogConfig
 
 _logger = logging.getLogger(__name__)
 
@@ -136,7 +136,7 @@ class ColoredFormatter(logging.Formatter):
     "-c",
     "--config",
     type=click.Path(dir_okay=False, exists=True),
-    help="Configuration file (default: ./checklog.cfg).",
+    help=f"Configuration file [default: {DEFAULT_CONFIG_FILE}].",
 )
 @click.argument("filename", type=click.Path(dir_okay=False), default="-")
 @click.pass_context
