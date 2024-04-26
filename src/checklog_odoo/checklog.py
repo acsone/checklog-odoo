@@ -169,7 +169,7 @@ def checklog_odoo(ctx, filename, config, ignore, verbose, echo, err_if_empty):
 
 
 def _read_defaults(config):
-    section = "checklog"
+    section = "checklog-odoo"
     defaults = {
         "ignore": config.getlist(section, "ignore", []),
         "echo": config.getboolean(section, "echo", None),
