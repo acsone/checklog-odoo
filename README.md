@@ -8,14 +8,15 @@
 <!--- shortdesc-begin -->
 
 Check if an odoo log file contains error, with the possibility to ignore some errors based on regular expressions.
-Replaces acsoo checklog (https://github.com/acsone/acsoo#id5).
+
+This project replaces the [acsoo](https://pypi.org/project/acsoo)'s checklog command.
 
 <!--- shortdesc-end -->
 
 **Table of Contents**
 
 - [Installation](#installation)
-- [Features](#features)
+- [Usage](#usage)
 - [License](#license)
 
 ## Installation
@@ -32,27 +33,36 @@ unbuffer odoo -d mydb -i base --stop-after-init | checklog-odoo
 checklog-odoo --ignore "WARNING.*blah" odoo.log
 ```
 
-## Options
+## Usage
 
-* -i, --ignore REGEX:              Regular expression of log records to ignore.
-* --echo / --no-echo:              Echo the input file (default when reading
+```console
+Usage: checklog-odoo [OPTIONS] [FILENAME]
+
+  Check an odoo log file for errors. When no filename or - is provided, read
+  from stdin.
+
+Options:
+  -i, --ignore REGEX              Regular expression of log records to ignore.
+  --echo / --no-echo              Echo the input file (default when reading
                                   from stdin).
-* --err-if-empty / --no-err-if-empty:
+  --err-if-empty / --no-err-if-empty
                                   Exit with an error code if no log record is
                                   found (default).
-*  -c, --config FILE:               Configuration file (default:
-                                  ./checklog.cfg).
-   * Example of config file:
-        ```console
-        [checklog]
-        ignore=
-           WARNING
-           ERROR:.*registry
-        ```
+  -v, --verbose
+  -c, --config FILE               Configuration file  [default: checklog-odoo.cfg]
+  --help                          Show this message and exit.
+```
 
+## Example of config file:
 
-*  --help:                          Show the help message and exit.
+The configuration file use the `ini` format:
 
+```ini
+[checklog-odoo]
+ignore=
+   WARNING
+   ERROR:.*registry
+```
 
 ## License
 
