@@ -11,6 +11,7 @@ requires-python = ">=3.7"
 license = "MIT"
 keywords = []
 authors = [
+  { name = "Stéphane Bidoul", email = "stephane.bidoul@acsone.eu" },
   { name = "Benoit Aimont", email = "benoit.aimont@acsone.eu" },
 ]
 classifiers = [
