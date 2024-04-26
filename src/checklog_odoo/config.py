@@ -10,7 +10,7 @@ import click
 
 from .compat import tomllib
 
-DEFAULT_CONFIG_FILE = "checklog.cfg"
+DEFAULT_CONFIG_FILE = "checklog-odoo.cfg"
 SECTION = "checklog"
 
 
