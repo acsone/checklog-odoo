@@ -96,6 +96,9 @@ skip-string-normalization = true
 [tool.ruff]
 target-version = "py37"
 line-length = 120
+fix = true
+
+[tool.ruff.lint]
 select = [
   "A",
   "ARG",
@@ -141,12 +144,9 @@ unfixable = [
 [tool.ruff.isort]
 known-first-party = ["checklog_odoo"]
 
-[tool.ruff.flake8-tidy-imports]
-ban-relative-imports = "all"
-
 [tool.ruff.per-file-ignores]
 # Tests can use magic values, assertions, and relative imports
-"tests/**/*" = ["PLR2004", "S101", "TID252"]
+"tests/**/*" = ["PLR2004", "S101"]
 
 [tool.coverage.run]
 branch = true

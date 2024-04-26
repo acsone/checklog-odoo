@@ -30,9 +30,7 @@ def _render_errors(error_records, ignored_error_records):
     if ignored_error_records:
         msg.append(
             click.style(
-                "\nerrors that did not cause failure ({}):\n".format(
-                    len(ignored_error_records)
-                ),
+                f"\nerrors that did not cause failure ({len(ignored_error_records)}):\n",
                 bold=True,
             )
         )
@@ -40,7 +38,7 @@ def _render_errors(error_records, ignored_error_records):
     if error_records:
         msg.append(
             click.style(
-                "\nerrors that caused failure ({}):\n".format(len(error_records)),
+                f"\nerrors that caused failure ({len(error_records)}):\n",
                 bold=True,
             )
         )
@@ -48,7 +46,7 @@ def _render_errors(error_records, ignored_error_records):
     return "".join(msg)
 
 
-def do_checklog(filename, ignore, echo, err_if_empty=True):
+def do_checklog(filename, ignore, echo, *, err_if_empty=True):
     ignore = [i for i in ignore if not i.startswith("#")]
     _logger.debug("ignored regular expressions:\n%s", "\n".join(ignore))
     ignore_regexes = [re.compile(i, re.MULTILINE) for i in ignore]
@@ -78,44 +76,44 @@ def do_checklog(filename, ignore, echo, err_if_empty=True):
             if echo:
                 click.echo(line, nl=False, color=True)
                 sys.stdout.flush()
-            line = ANSI_CSI_RE.sub("", line)  # strip ANSI colors
-            mo = LOG_START_RE.match(line)
+            line_nocolor = ANSI_CSI_RE.sub("", line)  # strip ANSI colors
+            mo = LOG_START_RE.match(line_nocolor)
             if mo:
                 reccount += 1
                 _process_cur_rec()
                 cur_rec_mo = mo
-                cur_rec = [line]
+                cur_rec = [line_nocolor]
             else:
-                cur_rec.append(line)
+                cur_rec.append(line_nocolor)
         _process_cur_rec()  # last record
 
         if not reccount and err_if_empty:
-            raise click.ClickException("No Odoo log record found in input.")
+            msg = "No Odoo log record found in input."
+            raise click.ClickException(msg)
 
         if error_records or ignored_error_records:
             msg = _render_errors(error_records, ignored_error_records)
             click.echo(msg)
         if error_records:
-            raise click.ClickException("Errors detected in log.")
+            msg = "Errors detected in log."
+            raise click.ClickException(msg)
+
 
 class ColoredFormatter(logging.Formatter):
-
-    COLORS = {
-        "DEBUG": dict(dim=True),
-        "INFO": dict(),
-        "WARNING": dict(fg="yellow"),
-        "ERROR": dict(fg="red"),
-        "CRITICAL": dict(fg="white", bg="red"),
+    COLORS = {  # noqa: RUF012
+        "DEBUG": {"dim": True},
+        "INFO": {},
+        "WARNING": {"fg": "yellow"},
+        "ERROR": {"fg": "red"},
+        "CRITICAL": {"fg": "white", "bg": "red"},
     }
 
     def format(self, record):
-        res = super(ColoredFormatter, self).format(record)
+        res = super().format(record)
         return click.style(res, **self.COLORS[record.levelname])
 
-@click.command(
-    help="Check an odoo log file for errors. When no filename "
-    "or - is provided, read from stdin."
-)
+
+@click.command(help="Check an odoo log file for errors. When no filename or - is provided, read from stdin.")
 @click.option(
     "--ignore",
     "-i",
@@ -131,7 +129,7 @@ class ColoredFormatter(logging.Formatter):
 @click.option(
     "--err-if-empty/--no-err-if-empty",
     default=True,
-    help="Exit with an error code if no log record is found " "(default).",
+    help="Exit with an error code if no log record is found (default).",
 )
 @click.option("-v", "--verbose", count=True)
 @click.option(
@@ -145,12 +143,12 @@ class ColoredFormatter(logging.Formatter):
 def checklog_odoo(ctx, filename, config, ignore, verbose, echo, err_if_empty):
     config = ChecklogConfig(config)
 
-    ctx.obj = dict(config=config)
+    ctx.obj = {"config": config}
 
     ctx.default_map = config.get_default_map()
 
-    checklog_config = ctx.default_map.get('checklog')
-    default_ignore = checklog_config.get('ignore')
+    checklog_config = ctx.default_map.get("checklog")
+    default_ignore = checklog_config.get("ignore")
     if not ignore and default_ignore:
         ignore = default_ignore
 
@@ -167,15 +165,16 @@ def checklog_odoo(ctx, filename, config, ignore, verbose, echo, err_if_empty):
     logger.setLevel(level)
     logger.addHandler(channel)
 
-    do_checklog(filename, ignore, echo, err_if_empty)
+    do_checklog(filename, ignore, echo, err_if_empty=err_if_empty)
 
 
 def _read_defaults(config):
     section = "checklog"
-    defaults = dict(
-        ignore=config.getlist(section, "ignore", []),
-        echo=config.getboolean(section, "echo", None),
-    )
-    return dict(checklog=defaults)
+    defaults = {
+        "ignore": config.getlist(section, "ignore", []),
+        "echo": config.getboolean(section, "echo", None),
+    }
+    return {"checklog": defaults}
+
 
 ChecklogConfig.add_default_map_reader(_read_defaults)
