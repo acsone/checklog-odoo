@@ -65,3 +65,60 @@ def test_empty():
     assert expected in res.output
     res = runner.invoke(checklog_odoo, ["--no-err-if-empty", os.path.join(DATA_DIR, "empty.log")])
     assert res.exit_code == 0
+
+
+def test_odoo_skipped_test_log():
+    runner = CliRunner()
+    res = runner.invoke(checklog_odoo, [os.path.join(DATA_DIR, "skipped_odoo.log")])
+    assert res.exit_code != 0
+    expected = "skipped tests detected (1):"
+    assert expected in res.output
+    expected = "Skipped tests detected in log."
+    assert expected in res.output
+
+
+def test_pytest_skipped_test_output():
+    runner = CliRunner()
+    res = runner.invoke(checklog_odoo, [os.path.join(DATA_DIR, "skipped_pytest.log")])
+    assert res.exit_code != 0
+    expected = "Skipped: Accounting Tests skipped because the user's company has no chart of accounts."
+    assert expected in res.output
+
+
+def test_pytest_skipped_progress_output():
+    runner = CliRunner()
+    res = runner.invoke(checklog_odoo, [os.path.join(DATA_DIR, "skipped_pytest_progress.log")])
+    assert res.exit_code != 0
+    expected = "SKIPPED odoo/addons/module/tests/test_model.py::TestModel::test_foo"
+    assert expected in res.output
+
+
+def test_no_err_on_skipped():
+    runner = CliRunner()
+    res = runner.invoke(checklog_odoo, ["--no-err-on-skipped", os.path.join(DATA_DIR, "skipped_odoo.log")])
+    assert res.exit_code == 0
+    expected = "skipped tests detected (1):"
+    assert expected in res.output
+
+
+def test_no_err_on_skipped_from_config():
+    runner = CliRunner()
+    res = runner.invoke(
+        checklog_odoo,
+        [
+            "-c",
+            os.path.join(DATA_DIR, "no_err_on_skipped.cfg"),
+            os.path.join(DATA_DIR, "skipped_odoo.log"),
+        ],
+    )
+    assert res.exit_code == 0
+    expected = "skipped tests detected (1):"
+    assert expected in res.output
+
+
+def test_skipped_false_positives():
+    runner = CliRunner()
+    res = runner.invoke(checklog_odoo, [os.path.join(DATA_DIR, "skipped_false_positive.log")])
+    assert res.exit_code == 0
+    unexpected = "skipped tests detected"
+    assert unexpected not in res.output
