@@ -1,0 +1,1 @@
+2026-07-11 01:42:11,943 12381 INFO test-db odoo.tests.suite: skipped setUpClass (odoo.addons.account_move_line_single_analytic_account.tests.test_account_move_line_single_analytic_account.TestAccountAnalyticAccount) : Accounting Tests skipped because the user's company has no chart of accounts.
