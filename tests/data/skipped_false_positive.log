@@ -1,0 +1,3 @@
+2026-07-11 01:42:11,943 12381 INFO test-db odoo.tests.suite: starting odoo.addons.module.tests.test_skipped_name.TestSkippedName
+2026-07-11 01:42:11,944 12381 INFO test-db odoo.modules.loading: skipped optional post-load hook
+[gw0] [ 23%] SKIPPED optional setup step
