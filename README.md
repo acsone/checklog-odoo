@@ -48,6 +48,9 @@ Options:
   --err-if-empty / --no-err-if-empty
                                   Exit with an error code if no log record is
                                   found (default).
+  --err-on-skipped / --no-err-on-skipped
+                                  Exit with an error code if skipped tests are
+                                  found (default).
   -v, --verbose
   -c, --config FILE               Configuration file  [default: checklog-odoo.cfg]
   --help                          Show this message and exit.
@@ -62,6 +65,8 @@ The configuration file use the `ini` format:
 ignore=
    WARNING
    ERROR:.*registry
+   SKIPPED odoo/addons/module/tests/test_model.py::TestModel::test_foo
+err_on_skipped=true
 ```
 
 ## License
